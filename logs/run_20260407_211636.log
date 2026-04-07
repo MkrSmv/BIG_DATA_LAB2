@@ -1,0 +1,863 @@
+﻿**********************
+Начало записи сценария Windows PowerShell
+Время начала: 20260407211636
+Имя пользователя: DESKTOP-QRE1HGF\core
+Запуск от имени пользователя: DESKTOP-QRE1HGF\core
+Имя конфигурации: 
+Компьютер: DESKTOP-QRE1HGF (Microsoft Windows NT 10.0.26200.0)
+Ведущее приложение: C:\WINDOWS\system32\WindowsPowerShell\v1.0\PowerShell.exe
+ИД процесса: 12316
+PSVersion: 5.1.26100.7920
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.7920
+BuildVersion: 10.0.26100.7920
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Транскрибирование запущено, выходной файл logs\run_20260407_211636.log
+Run log: logs\run_20260407_211636.log
+
+=============================
+ 0. Setup
+=============================
+Dataset not found. Downloading ...
+Requirement already satisfied: matplotlib in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from -r requirements.txt (line 1)) (3.10.8)
+Requirement already satisfied: numpy in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from -r requirements.txt (line 2)) (2.4.4)
+Requirement already satisfied: contourpy>=1.0.1 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (4.62.1)
+Requirement already satisfied: kiwisolver>=1.3.1 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (1.5.0)
+Requirement already satisfied: packaging>=20.0 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (26.0)
+Requirement already satisfied: pillow>=8 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (12.2.0)
+Requirement already satisfied: pyparsing>=3 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (3.3.2)
+Requirement already satisfied: python-dateutil>=2.7 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from matplotlib->-r requirements.txt (line 1)) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in c:\users\core\appdata\local\programs\python\python313\lib\site-packages (from python-dateutil>=2.7->matplotlib->-r requirements.txt (line 1)) (1.17.0)
+
+[notice] A new release of pip is available: 25.3 -> 26.0.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+=======================================================
+  NYC Yellow Taxi Dataset Downloader
+=======================================================
+  URL   : https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet
+  Output: nyc_taxi_2023.parquet
+
+  Downloading... 100%
+  Download complete! File size: 45.5 MB
+
+  Dataset overview:
+  - Rows   : ~3,000,000 (January 2023)
+  - Columns: 19 (VendorID, datetime, distance, fare, tip, etc.)
+  - Types  : integer, float, timestamp, string (categorical)
+  - Format : Apache Parquet (columnar, efficient for Spark)
+
+  Column types:
+    Categorical : VendorID, RatecodeID, payment_type, store_and_fwd_flag
+    Numeric     : trip_distance, fare_amount, tip_amount, total_amount
+    Integer     : passenger_count, PULocationID, DOLocationID
+    Timestamp   : tpep_pickup_datetime, tpep_dropoff_datetime
+
+  Ready to upload to HDFS!
+
+=============================
+ 1. Experiments: 1 DataNode
+=============================
+ ✔ Container spark-master   Started                                                                                                                                                                          1.1s
+ ✔ Container spark-worker-1 Started                                                                                                                                                                          1.4s
+Waiting for 1DN cluster (30s) ...
+
+Copying dataset to NameNode ...
+
+Uploading to HDFS (/nyc_taxi_2023.parquet) ...
+
+
+
+  [apk] spark-worker-1 ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-worker-1 done.
+  [apk] spark-master ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-master done.
+  [pip] Installing psutil numpy on spark-master ...
+    Collecting psutil
+      Installing build dependencies: started
+      Installing build dependencies: finished with status 'done'
+      Installing backend dependencies: started
+      Installing backend dependencies: finished with status 'done'
+    Collecting numpy
+      Installing build dependencies: started
+      Installing build dependencies: finished with status 'done'
+    Successfully built psutil numpy
+    Installing collected packages: psutil, numpy
+    Successfully installed numpy-1.21.6 psutil-7.2.2
+  [pip] psutil verified OK.
+ -> 1DN Normal
+    (may take 2-5 min, output streams below)
+    26/04/07 18:20:47 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+    Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+    26/04/07 18:20:48 INFO SparkContext: Running Spark version 3.0.0
+    26/04/07 18:20:48 INFO ResourceUtils: ==============================================================
+    26/04/07 18:20:48 INFO ResourceUtils: Resources for spark.driver:
+    System.Management.Automation.RemoteException
+    26/04/07 18:20:48 INFO ResourceUtils: ==============================================================
+    26/04/07 18:20:48 INFO SparkContext: Submitted application: NYCTaxiAnalysis
+    26/04/07 18:20:48 INFO SecurityManager: Changing view acls to: root
+    26/04/07 18:20:48 INFO SecurityManager: Changing modify acls to: root
+    26/04/07 18:20:48 INFO SecurityManager: Changing view acls groups to:
+    26/04/07 18:20:48 INFO SecurityManager: Changing modify acls groups to:
+    26/04/07 18:20:48 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+    26/04/07 18:20:48 INFO Utils: Successfully started service 'sparkDriver' on port 40811.
+    26/04/07 18:20:48 INFO SparkEnv: Registering MapOutputTracker
+    26/04/07 18:20:48 INFO SparkEnv: Registering BlockManagerMaster
+    26/04/07 18:20:48 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+    26/04/07 18:20:48 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+    26/04/07 18:20:48 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+    26/04/07 18:20:48 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-09a20851-4927-4628-90db-4c7cf9a0b0ed
+    26/04/07 18:20:48 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+    26/04/07 18:20:48 INFO SparkEnv: Registering OutputCommitCoordinator
+    26/04/07 18:20:49 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+    26/04/07 18:20:49 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://9e99086d8f11:4040
+    26/04/07 18:20:49 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+    26/04/07 18:20:49 INFO TransportClientFactory: Successfully created connection to spark-master/172.20.0.4:7077 after 23 ms (0 ms spent in bootstraps)
+    26/04/07 18:20:50 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260407182049-0000
+    26/04/07 18:20:50 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36083.
+    26/04/07 18:20:50 INFO NettyBlockTransferService: Server created on 9e99086d8f11:36083
+    26/04/07 18:20:50 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+    26/04/07 18:20:50 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 9e99086d8f11, 36083, None)
+    26/04/07 18:20:50 INFO BlockManagerMasterEndpoint: Registering block manager 9e99086d8f11:36083 with 366.3 MiB RAM, BlockManagerId(driver, 9e99086d8f11, 36083, None)
+    26/04/07 18:20:50 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 9e99086d8f11, 36083, None)
+    26/04/07 18:20:50 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 9e99086d8f11, 36083, None)
+    26/04/07 18:20:50 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407182049-0000/0 on worker-20260407181648-172.20.0.5-43337 (172.20.0.5:43337) with 12 core(s)
+    26/04/07 18:20:50 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407182049-0000/0 on hostPort 172.20.0.5:43337 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:20:50 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407182049-0000/0 is now RUNNING
+    26/04/07 18:20:50 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+    26/04/07 18:20:50 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/spark-warehouse').
+    26/04/07 18:20:50 INFO SharedState: Warehouse path is 'file:/spark-warehouse'.
+    2026-04-07 18:20:51,228 INFO : ============================================================
+    2026-04-07 18:20:51,228 INFO : NYCTaxiAnalysis | OPTIMIZED=False
+    2026-04-07 18:20:51,228 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=100
+    2026-04-07 18:20:51,228 INFO : ============================================================
+    /spark/python/lib/pyspark.zip/pyspark/util.py:141: UserWarning: Currently, 'setJobDescription' (set to local properties) with multiple threads does not properly work.
+    Internally threads on PVM and JVM are not synced, and JVM thread can be reused for multiple threads on PVM, which fails to isolate local properties for each thread on PVM.
+    To work around this, you can set PYSPARK_PIN_THREAD to true (see SPARK-22340). However, note that it cannot inherit the local properties from the parent thread although it isolates each thread on PVM and JVM with its own local properties.
+    To work around this, you should manually copy and set the local properties from the parent thread to the child thread when you create another thread.
+    2026-04-07 18:20:51,229 INFO : [JOB START] >>> Load
+    2026-04-07 18:20:59,601 INFO : Full dataset: 3,066,766 rows | 12 partitions
+    2026-04-07 18:20:59,971 INFO : Sampled 521,481 rows (fraction=0.17)
+    2026-04-07 18:20:59,978 INFO : [JOB END]   <<< Load | 8.743s | active stages: []
+    2026-04-07 18:20:59,979 INFO : [JOB START] >>> Preprocessing
+    2026-04-07 18:21:02,429 INFO : After preprocessing: 500,561 rows | 12 partitions
+    2026-04-07 18:21:02,431 INFO : [JOB END]   <<< Preprocessing | 2.450s | active stages: []
+    2026-04-07 18:21:02,431 INFO : [JOB START] >>> Aggregations
+    2026-04-07 18:21:02,432 INFO : [AGG 1/4] Trips and avg fare by VendorID
+    +--------+------+------------------+------------------+
+    |VendorID| trips|      avg_distance|         avg_total|
+    +--------+------+------------------+------------------+
+    |       1|134616|3.1663665537529075|25.951557764307513|
+    |       2|365945|3.5285641558157383|27.892783751659998|
+    +--------+------+------------------+------------------+
+    2026-04-07 18:21:04,564 INFO : [AGG 2/4] Trips by pickup hour
+    +-----------+-----+------------------+
+    |pickup_hour|trips|          avg_fare|
+    +-----------+-----+------------------+
+    |          0|13772| 19.95588004647119|
+    |          1| 9356|17.863178708849958|
+    |          2| 6795| 17.06161736571008|
+    |          3| 4401|17.834605771415546|
+    |          4| 2747| 22.41289770658899|
+    |          5| 2813|27.260238179879124|
+    |          6| 7071|22.453051902135474|
+    |          7|13871| 18.84508254631976|
+    |          8|18730|17.359886812600067|
+    |          9|21371|17.516674465396974|
+    |         10|23673| 17.85940776411934|
+    |         11|25171|17.481180326566182|
+    |         12|27844|17.783724680361985|
+    |         13|29606| 18.61528913058166|
+    |         14|31709|19.712439055157688|
+    |         15|32563|19.263914565611408|
+    |         16|31988|19.633304364136624|
+    |         17|34510|18.540350043465605|
+    |         18|35026|  16.9831231085478|
+    |         19|31414|17.466342076780972|
+    |         20|27146|18.125681131658432|
+    |         21|26462|  18.5191398987226|
+    |         22|23943|19.363899260744077|
+    |         23|18579|20.654169223316693|
+    +-----------+-----+------------------+
+    2026-04-07 18:21:05,974 INFO : [AGG 3/4] Payment type distribution
+    +------------+------+
+    |payment_type| count|
+    +------------+------+
+    |           1|410180|
+    |           2| 90381|
+    +------------+------+
+    2026-04-07 18:21:07,009 INFO : [AGG 4/4] Avg tip by day of week
+    +----------+-----+------------------+
+    |pickup_dow|trips|           avg_tip|
+    +----------+-----+------------------+
+    |         1|70863| 3.539572696611629|
+    |         2|66060| 3.563108689070427|
+    |         3|80231| 3.430505041691997|
+    |         4|68240| 3.388098182883865|
+    |         5|71963| 3.443138418353794|
+    |         6|70795| 3.408475739812046|
+    |         7|72409|3.2026604427625522|
+    +----------+-----+------------------+
+    2026-04-07 18:21:08,111 INFO : [JOB END]   <<< Aggregations | 5.677s | active stages: []
+    2026-04-07 18:21:08,112 INFO : [JOB START] >>> ML-FeatureEng
+    2026-04-07 18:21:08,373 INFO : [JOB END]   <<< ML-FeatureEng | 0.260s | active stages: []
+    2026-04-07 18:21:08,374 INFO : [JOB START] >>> ML-Training
+    2026-04-07 18:21:08,455 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+    2026-04-07 18:21:18,870 INFO : Training complete | iterations: 16
+    2026-04-07 18:21:18,871 INFO : [JOB END]   <<< ML-Training | 10.496s | active stages: []
+    2026-04-07 18:21:18,872 INFO : [JOB START] >>> ML-Evaluation
+    2026-04-07 18:21:21,348 INFO : Model accuracy: 0.9454
+    2026-04-07 18:21:21,349 INFO : [JOB END]   <<< ML-Evaluation | 2.476s | active stages: []
+    2026-04-07 18:21:21,350 INFO : ============================================================
+    2026-04-07 18:21:21,350 INFO : TOTAL TIME : 30.12s
+    2026-04-07 18:21:21,350 INFO : DRIVER RAM : 37.47 MB
+    2026-04-07 18:21:21,350 INFO : ACCURACY   : 0.9454
+    2026-04-07 18:21:21,351 INFO : Stage breakdown:
+    2026-04-07 18:21:21,351 INFO :   [Load]: 8.743s
+    2026-04-07 18:21:21,351 INFO :   [Preprocessing]: 2.450s
+    2026-04-07 18:21:21,351 INFO :   [Aggregations]: 5.677s
+    2026-04-07 18:21:21,351 INFO :   [ML-FeatureEng]: 0.260s
+    2026-04-07 18:21:21,352 INFO :   [ML-Training]: 10.496s
+    2026-04-07 18:21:21,352 INFO :   [ML-Evaluation]: 2.476s
+    2026-04-07 18:21:21,352 INFO : ============================================================
+    [METRIC] [ROWS]521481
+    [METRIC] [TIME]30.12212896347046
+    [METRIC] [MEMORY]37.47265625mb
+    [METRIC] [LOAD_TIME]8.742724895477295
+    [METRIC] [AGG_TIME]5.67703914642334
+    [METRIC] [ML_TIME]10.49584412574768
+    [METRIC] [ACCURACY]0.9454352569106668
+    Log saved: logs\1dn_normal.log
+    Saved 7 metrics to results\res_one_node.txt
+ -> 1DN Optimized
+    (may take 2-5 min, output streams below)
+    26/04/07 18:21:24 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+    Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+    26/04/07 18:21:24 INFO SparkContext: Running Spark version 3.0.0
+    26/04/07 18:21:25 INFO ResourceUtils: ==============================================================
+    26/04/07 18:21:25 INFO ResourceUtils: Resources for spark.driver:
+    System.Management.Automation.RemoteException
+    26/04/07 18:21:25 INFO ResourceUtils: ==============================================================
+    26/04/07 18:21:25 INFO SparkContext: Submitted application: NYCTaxiAnalysis
+    26/04/07 18:21:25 INFO SecurityManager: Changing view acls to: root
+    26/04/07 18:21:25 INFO SecurityManager: Changing modify acls to: root
+    26/04/07 18:21:25 INFO SecurityManager: Changing view acls groups to:
+    26/04/07 18:21:25 INFO SecurityManager: Changing modify acls groups to:
+    26/04/07 18:21:25 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+    26/04/07 18:21:25 INFO Utils: Successfully started service 'sparkDriver' on port 33905.
+    26/04/07 18:21:25 INFO SparkEnv: Registering MapOutputTracker
+    26/04/07 18:21:25 INFO SparkEnv: Registering BlockManagerMaster
+    26/04/07 18:21:25 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+    26/04/07 18:21:25 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+    26/04/07 18:21:25 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+    26/04/07 18:21:25 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-52baf9eb-1708-404a-8d51-494ff1634110
+    26/04/07 18:21:25 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+    26/04/07 18:21:25 INFO SparkEnv: Registering OutputCommitCoordinator
+    26/04/07 18:21:25 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+    26/04/07 18:21:25 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://9e99086d8f11:4040
+    26/04/07 18:21:25 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+    26/04/07 18:21:26 INFO TransportClientFactory: Successfully created connection to spark-master/172.20.0.4:7077 after 35 ms (0 ms spent in bootstraps)
+    26/04/07 18:21:26 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260407182126-0001
+    26/04/07 18:21:26 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407182126-0001/0 on worker-20260407181648-172.20.0.5-43337 (172.20.0.5:43337) with 12 core(s)
+    26/04/07 18:21:26 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407182126-0001/0 on hostPort 172.20.0.5:43337 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:21:26 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38381.
+    26/04/07 18:21:26 INFO NettyBlockTransferService: Server created on 9e99086d8f11:38381
+    26/04/07 18:21:26 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+    26/04/07 18:21:26 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 9e99086d8f11, 38381, None)
+    26/04/07 18:21:26 INFO BlockManagerMasterEndpoint: Registering block manager 9e99086d8f11:38381 with 366.3 MiB RAM, BlockManagerId(driver, 9e99086d8f11, 38381, None)
+    26/04/07 18:21:26 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 9e99086d8f11, 38381, None)
+    26/04/07 18:21:26 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 9e99086d8f11, 38381, None)
+    26/04/07 18:21:26 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+    26/04/07 18:21:26 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407182126-0001/0 is now RUNNING
+    26/04/07 18:21:26 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/spark-warehouse').
+    26/04/07 18:21:26 INFO SharedState: Warehouse path is 'file:/spark-warehouse'.
+    2026-04-07 18:21:27,163 INFO : ============================================================
+    2026-04-07 18:21:27,163 INFO : NYCTaxiAnalysis | OPTIMIZED=True
+    2026-04-07 18:21:27,164 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=12
+    2026-04-07 18:21:27,164 INFO : ============================================================
+    /spark/python/lib/pyspark.zip/pyspark/util.py:141: UserWarning: Currently, 'setJobDescription' (set to local properties) with multiple threads does not properly work.
+    Internally threads on PVM and JVM are not synced, and JVM thread can be reused for multiple threads on PVM, which fails to isolate local properties for each thread on PVM.
+    To work around this, you can set PYSPARK_PIN_THREAD to true (see SPARK-22340). However, note that it cannot inherit the local properties from the parent thread although it isolates each thread on PVM and JVM with its own local properties.
+    To work around this, you should manually copy and set the local properties from the parent thread to the child thread when you create another thread.
+    2026-04-07 18:21:27,164 INFO : [JOB START] >>> Load
+    2026-04-07 18:21:33,474 INFO : Full dataset: 3,066,766 rows | 12 partitions
+    2026-04-07 18:21:33,847 INFO : Sampled 521,481 rows (fraction=0.17)
+    2026-04-07 18:21:33,855 INFO : [JOB END]   <<< Load | 6.682s | active stages: []
+    2026-04-07 18:21:33,856 INFO : [JOB START] >>> Preprocessing
+    2026-04-07 18:21:34,431 INFO : OPTIMIZED: repartition(12) + persist(MEMORY_AND_DISK)
+    2026-04-07 18:21:37,809 INFO : After preprocessing: 500,561 rows | 12 partitions
+    2026-04-07 18:21:37,823 INFO : [JOB END]   <<< Preprocessing | 3.953s | active stages: []
+    2026-04-07 18:21:37,823 INFO : [JOB START] >>> Aggregations
+    2026-04-07 18:21:37,824 INFO : [AGG 1/4] Trips and avg fare by VendorID
+    +--------+------+------------------+------------------+
+    |VendorID| trips|      avg_distance|         avg_total|
+    +--------+------+------------------+------------------+
+    |       2|365945|3.5285641558157614| 27.89278375165689|
+    |       1|134616|3.1663665537528973|25.951557764307307|
+    +--------+------+------------------+------------------+
+    2026-04-07 18:21:38,716 INFO : [AGG 2/4] Trips by pickup hour
+    +-----------+-----+------------------+
+    |pickup_hour|trips|          avg_fare|
+    +-----------+-----+------------------+
+    |          0|13772|19.955880046471105|
+    |          1| 9356|17.863178708849933|
+    |          2| 6795|17.061617365710084|
+    |          3| 4401|17.834605771415585|
+    |          4| 2747|22.412897706589007|
+    |          5| 2813|27.260238179879135|
+    |          6| 7071| 22.45305190213548|
+    |          7|13871|18.845082546319667|
+    |          8|18730|  17.3598868126001|
+    |          9|21371|17.516674465397024|
+    |         10|23673| 17.85940776411946|
+    |         11|25171| 17.48118032656628|
+    |         12|27844|17.783724680362013|
+    |         13|29606|18.615289130581633|
+    |         14|31709|19.712439055157848|
+    |         15|32563|19.263914565611277|
+    |         16|31988| 19.63330436413656|
+    |         17|34510|18.540350043465658|
+    |         18|35026|16.983123108547936|
+    |         19|31414|17.466342076781036|
+    |         20|27146|18.125681131658435|
+    |         21|26462|18.519139898722692|
+    |         22|23943|19.363899260744258|
+    |         23|18579|20.654169223316643|
+    +-----------+-----+------------------+
+    2026-04-07 18:21:39,353 INFO : [AGG 3/4] Payment type distribution
+    +------------+------+
+    |payment_type| count|
+    +------------+------+
+    |           1|410180|
+    |           2| 90381|
+    +------------+------+
+    2026-04-07 18:21:39,688 INFO : [AGG 4/4] Avg tip by day of week
+    +----------+-----+------------------+
+    |pickup_dow|trips|           avg_tip|
+    +----------+-----+------------------+
+    |         1|70863| 3.539572696611774|
+    |         2|66060|3.5631086890705435|
+    |         3|80231|3.4305050416921152|
+    |         4|68240|  3.38809818288394|
+    |         5|71963|3.4431384183538776|
+    |         6|70795|3.4084757398121313|
+    |         7|72409|3.2026604427626397|
+    +----------+-----+------------------+
+    2026-04-07 18:21:39,909 INFO : [JOB END]   <<< Aggregations | 2.084s | active stages: []
+    2026-04-07 18:21:39,910 INFO : [JOB START] >>> ML-FeatureEng
+    2026-04-07 18:21:40,178 INFO : OPTIMIZED: caching train/test splits
+    2026-04-07 18:21:43,062 INFO : Train: 400,909 | Test: 99,652
+    2026-04-07 18:21:43,064 INFO : [JOB END]   <<< ML-FeatureEng | 3.153s | active stages: []
+    2026-04-07 18:21:43,065 INFO : [JOB START] >>> ML-Training
+    2026-04-07 18:21:43,113 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+    2026-04-07 18:21:47,730 INFO : Training complete | iterations: 16
+    2026-04-07 18:21:47,732 INFO : [JOB END]   <<< ML-Training | 4.665s | active stages: []
+    2026-04-07 18:21:47,732 INFO : [JOB START] >>> ML-Evaluation
+    2026-04-07 18:21:48,200 INFO : Model accuracy: 0.9448
+    2026-04-07 18:21:48,201 INFO : [JOB END]   <<< ML-Evaluation | 0.468s | active stages: []
+    2026-04-07 18:21:48,212 INFO : Unpersisted all cached DataFrames
+    2026-04-07 18:21:48,212 INFO : ============================================================
+    2026-04-07 18:21:48,212 INFO : TOTAL TIME : 21.05s
+    2026-04-07 18:21:48,213 INFO : DRIVER RAM : 38.13 MB
+    2026-04-07 18:21:48,213 INFO : ACCURACY   : 0.9448
+    2026-04-07 18:21:48,213 INFO : Stage breakdown:
+    2026-04-07 18:21:48,213 INFO :   [Load]: 6.682s
+    2026-04-07 18:21:48,213 INFO :   [Preprocessing]: 3.953s
+    2026-04-07 18:21:48,213 INFO :   [Aggregations]: 2.084s
+    2026-04-07 18:21:48,213 INFO :   [ML-FeatureEng]: 3.153s
+    2026-04-07 18:21:48,213 INFO :   [ML-Training]: 4.665s
+    2026-04-07 18:21:48,213 INFO :   [ML-Evaluation]: 0.468s
+    2026-04-07 18:21:48,213 INFO : ============================================================
+    [METRIC] [ROWS]521481
+    [METRIC] [TIME]21.04903531074524
+    [METRIC] [MEMORY]38.1328125mb
+    [METRIC] [LOAD_TIME]6.682316303253174
+    [METRIC] [AGG_TIME]2.0838825702667236
+    [METRIC] [ML_TIME]4.664601802825928
+    [METRIC] [ACCURACY]0.9448380363665556
+    Log saved: logs\1dn_optimized.log
+    Saved 7 metrics to results\res_one_node_opt.txt
+Stopping 1DN cluster ...
+
+
+=============================
+ 2. Experiments: 3 DataNodes
+=============================
+
+Waiting for 3DN cluster (40s) ...
+
+Copying dataset to NameNode ...
+
+Uploading to HDFS (/nyc_taxi_2023.parquet) ...
+
+
+
+  [apk] spark-worker-1 ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-worker-1 done.
+  [apk] spark-worker-2 ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-worker-2 done.
+  [apk] spark-worker-3 ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-worker-3 done.
+  [apk] spark-master ...
+    (1/20) Upgrading musl (1.1.22-r3 -> 1.1.22-r4)
+    (2/20) Installing perl (5.28.3-r0)
+    (3/20) Installing automake (1.16.1-r0)
+    (4/20) Installing binutils (2.32-r1)
+    (5/20) Installing gmp (6.1.2-r1)
+    (6/20) Installing isl (0.18-r0)
+    (7/20) Installing libgomp (8.3.0-r0)
+    (8/20) Installing libatomic (8.3.0-r0)
+    (9/20) Installing mpfr3 (3.1.5-r1)
+    (10/20) Installing mpc1 (1.1.0-r0)
+    (11/20) Installing gcc (8.3.0-r0)
+    (12/20) Installing musl-dev (1.1.22-r4)
+    (13/20) Installing libc-dev (0.7.1-r0)
+    (14/20) Installing g++ (8.3.0-r0)
+    (15/20) Upgrading libc6-compat (1.1.22-r3 -> 1.1.22-r4)
+    (16/20) Installing linux-headers (4.19.36-r0)
+    (17/20) Installing make (4.2.1-r2)
+    (18/20) Upgrading python3 (3.7.7-r1 -> 3.7.10-r0)
+    (19/20) Installing pkgconf (1.6.1-r1)
+    (20/20) Installing python3-dev (3.7.10-r0)
+    OK: 440 MiB in 86 packages
+  [apk] spark-master done.
+  [pip] Installing psutil numpy on spark-master ...
+    Collecting psutil
+      Installing build dependencies: started
+      Installing build dependencies: finished with status 'done'
+      Installing backend dependencies: started
+      Installing backend dependencies: finished with status 'done'
+    Collecting numpy
+      Installing build dependencies: started
+      Installing build dependencies: finished with status 'done'
+    Successfully built psutil numpy
+    Installing collected packages: psutil, numpy
+    Successfully installed numpy-1.21.6 psutil-7.2.2
+  [pip] psutil verified OK.
+ -> 3DN Normal
+    (may take 2-5 min, output streams below)
+    26/04/07 18:32:24 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+    Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+    26/04/07 18:32:25 INFO SparkContext: Running Spark version 3.0.0
+    26/04/07 18:32:25 INFO ResourceUtils: ==============================================================
+    26/04/07 18:32:25 INFO ResourceUtils: Resources for spark.driver:
+    System.Management.Automation.RemoteException
+    26/04/07 18:32:25 INFO ResourceUtils: ==============================================================
+    26/04/07 18:32:25 INFO SparkContext: Submitted application: NYCTaxiAnalysis
+    26/04/07 18:32:25 INFO SecurityManager: Changing view acls to: root
+    26/04/07 18:32:25 INFO SecurityManager: Changing modify acls to: root
+    26/04/07 18:32:25 INFO SecurityManager: Changing view acls groups to:
+    26/04/07 18:32:25 INFO SecurityManager: Changing modify acls groups to:
+    26/04/07 18:32:25 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+    26/04/07 18:32:25 INFO Utils: Successfully started service 'sparkDriver' on port 45941.
+    26/04/07 18:32:25 INFO SparkEnv: Registering MapOutputTracker
+    26/04/07 18:32:25 INFO SparkEnv: Registering BlockManagerMaster
+    26/04/07 18:32:25 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+    26/04/07 18:32:25 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+    26/04/07 18:32:25 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+    26/04/07 18:32:25 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-fbdbbc84-2894-4b96-96c7-a4dcab609c41
+    26/04/07 18:32:25 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+    26/04/07 18:32:25 INFO SparkEnv: Registering OutputCommitCoordinator
+    26/04/07 18:32:25 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+    26/04/07 18:32:25 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://bba911f61a1a:4040
+    26/04/07 18:32:25 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+    26/04/07 18:32:25 INFO TransportClientFactory: Successfully created connection to spark-master/172.20.0.6:7077 after 23 ms (0 ms spent in bootstraps)
+    26/04/07 18:32:26 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260407183226-0000
+    26/04/07 18:32:26 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39787.
+    26/04/07 18:32:26 INFO NettyBlockTransferService: Server created on bba911f61a1a:39787
+    26/04/07 18:32:26 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+    26/04/07 18:32:26 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, bba911f61a1a, 39787, None)
+    26/04/07 18:32:26 INFO BlockManagerMasterEndpoint: Registering block manager bba911f61a1a:39787 with 366.3 MiB RAM, BlockManagerId(driver, bba911f61a1a, 39787, None)
+    26/04/07 18:32:26 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, bba911f61a1a, 39787, None)
+    26/04/07 18:32:26 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, bba911f61a1a, 39787, None)
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183226-0000/0 on worker-20260407182201-172.20.0.9-41863 (172.20.0.9:41863) with 12 core(s)
+    26/04/07 18:32:26 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183226-0000/0 on hostPort 172.20.0.9:41863 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183226-0000/1 on worker-20260407182201-172.20.0.8-37303 (172.20.0.8:37303) with 12 core(s)
+    26/04/07 18:32:26 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183226-0000/1 on hostPort 172.20.0.8:37303 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183226-0000/2 on worker-20260407182200-172.20.0.7-36381 (172.20.0.7:36381) with 12 core(s)
+    26/04/07 18:32:26 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183226-0000/2 on hostPort 172.20.0.7:36381 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:32:26 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183226-0000/0 is now RUNNING
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183226-0000/1 is now RUNNING
+    26/04/07 18:32:26 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183226-0000/2 is now RUNNING
+    26/04/07 18:32:26 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/spark-warehouse').
+    26/04/07 18:32:26 INFO SharedState: Warehouse path is 'file:/spark-warehouse'.
+    2026-04-07 18:32:27,567 INFO : ============================================================
+    2026-04-07 18:32:27,567 INFO : NYCTaxiAnalysis | OPTIMIZED=False
+    2026-04-07 18:32:27,567 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=100
+    2026-04-07 18:32:27,568 INFO : ============================================================
+    /spark/python/lib/pyspark.zip/pyspark/util.py:141: UserWarning: Currently, 'setJobDescription' (set to local properties) with multiple threads does not properly work.
+    Internally threads on PVM and JVM are not synced, and JVM thread can be reused for multiple threads on PVM, which fails to isolate local properties for each thread on PVM.
+    To work around this, you can set PYSPARK_PIN_THREAD to true (see SPARK-22340). However, note that it cannot inherit the local properties from the parent thread although it isolates each thread on PVM and JVM with its own local properties.
+    To work around this, you should manually copy and set the local properties from the parent thread to the child thread when you create another thread.
+    2026-04-07 18:32:27,568 INFO : [JOB START] >>> Load
+    2026-04-07 18:32:36,869 INFO : Full dataset: 3,066,766 rows | 12 partitions
+    2026-04-07 18:32:37,481 INFO : Sampled 521,481 rows (fraction=0.17)
+    2026-04-07 18:32:37,488 INFO : [JOB END]   <<< Load | 9.913s | active stages: []
+    2026-04-07 18:32:37,488 INFO : [JOB START] >>> Preprocessing
+    2026-04-07 18:32:39,915 INFO : After preprocessing: 500,561 rows | 12 partitions
+    2026-04-07 18:32:39,916 INFO : [JOB END]   <<< Preprocessing | 2.426s | active stages: []
+    2026-04-07 18:32:39,917 INFO : [JOB START] >>> Aggregations
+    2026-04-07 18:32:39,917 INFO : [AGG 1/4] Trips and avg fare by VendorID
+    +--------+------+------------------+------------------+
+    |VendorID| trips|      avg_distance|         avg_total|
+    +--------+------+------------------+------------------+
+    |       1|134616|3.1663665537529075|25.951557764307513|
+    |       2|365945|3.5285641558157383|27.892783751659998|
+    +--------+------+------------------+------------------+
+    2026-04-07 18:32:43,062 INFO : [AGG 2/4] Trips by pickup hour
+    +-----------+-----+------------------+
+    |pickup_hour|trips|          avg_fare|
+    +-----------+-----+------------------+
+    |          0|13772| 19.95588004647119|
+    |          1| 9356|17.863178708849958|
+    |          2| 6795| 17.06161736571008|
+    |          3| 4401|17.834605771415546|
+    |          4| 2747| 22.41289770658899|
+    |          5| 2813|27.260238179879124|
+    |          6| 7071|22.453051902135474|
+    |          7|13871| 18.84508254631976|
+    |          8|18730|17.359886812600067|
+    |          9|21371|17.516674465396974|
+    |         10|23673| 17.85940776411934|
+    |         11|25171|17.481180326566182|
+    |         12|27844|17.783724680361985|
+    |         13|29606| 18.61528913058166|
+    |         14|31709|19.712439055157688|
+    |         15|32563|19.263914565611408|
+    |         16|31988|19.633304364136624|
+    |         17|34510|18.540350043465605|
+    |         18|35026|  16.9831231085478|
+    |         19|31414|17.466342076780972|
+    |         20|27146|18.125681131658432|
+    |         21|26462|  18.5191398987226|
+    |         22|23943|19.363899260744077|
+    |         23|18579|20.654169223316693|
+    +-----------+-----+------------------+
+    2026-04-07 18:32:45,659 INFO : [AGG 3/4] Payment type distribution
+    +------------+------+
+    |payment_type| count|
+    +------------+------+
+    |           1|410180|
+    |           2| 90381|
+    +------------+------+
+    2026-04-07 18:32:46,942 INFO : [AGG 4/4] Avg tip by day of week
+    +----------+-----+------------------+
+    |pickup_dow|trips|           avg_tip|
+    +----------+-----+------------------+
+    |         1|70863| 3.539572696611629|
+    |         2|66060| 3.563108689070427|
+    |         3|80231| 3.430505041691997|
+    |         4|68240| 3.388098182883865|
+    |         5|71963| 3.443138418353794|
+    |         6|70795| 3.408475739812046|
+    |         7|72409|3.2026604427625522|
+    +----------+-----+------------------+
+    2026-04-07 18:32:48,278 INFO : [JOB END]   <<< Aggregations | 8.360s | active stages: []
+    2026-04-07 18:32:48,279 INFO : [JOB START] >>> ML-FeatureEng
+    2026-04-07 18:32:48,531 INFO : [JOB END]   <<< ML-FeatureEng | 0.251s | active stages: []
+    2026-04-07 18:32:48,532 INFO : [JOB START] >>> ML-Training
+    2026-04-07 18:32:48,581 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+    2026-04-07 18:32:59,055 INFO : Training complete | iterations: 16
+    2026-04-07 18:32:59,058 INFO : [JOB END]   <<< ML-Training | 10.522s | active stages: []
+    2026-04-07 18:32:59,060 INFO : [JOB START] >>> ML-Evaluation
+    2026-04-07 18:33:01,955 INFO : Model accuracy: 0.9454
+    2026-04-07 18:33:01,956 INFO : [JOB END]   <<< ML-Evaluation | 2.895s | active stages: []
+    2026-04-07 18:33:01,957 INFO : ============================================================
+    2026-04-07 18:33:01,957 INFO : TOTAL TIME : 34.39s
+    2026-04-07 18:33:01,957 INFO : DRIVER RAM : 38.18 MB
+    2026-04-07 18:33:01,957 INFO : ACCURACY   : 0.9454
+    2026-04-07 18:33:01,957 INFO : Stage breakdown:
+    2026-04-07 18:33:01,957 INFO :   [Load]: 9.913s
+    2026-04-07 18:33:01,957 INFO :   [Preprocessing]: 2.426s
+    2026-04-07 18:33:01,957 INFO :   [Aggregations]: 8.360s
+    2026-04-07 18:33:01,958 INFO :   [ML-FeatureEng]: 0.251s
+    2026-04-07 18:33:01,958 INFO :   [ML-Training]: 10.522s
+    2026-04-07 18:33:01,958 INFO :   [ML-Evaluation]: 2.895s
+    2026-04-07 18:33:01,958 INFO : ============================================================
+    [METRIC] [ROWS]521481
+    [METRIC] [TIME]34.389527559280396
+    [METRIC] [MEMORY]38.18359375mb
+    [METRIC] [LOAD_TIME]9.91298246383667
+    [METRIC] [AGG_TIME]8.359732627868652
+    [METRIC] [ML_TIME]10.521896839141846
+    [METRIC] [ACCURACY]0.9454352569106668
+    Log saved: logs\3dn_normal.log
+    Saved 7 metrics to results\res_three_node.txt
+ -> 3DN Optimized
+    (may take 2-5 min, output streams below)
+    26/04/07 18:33:04 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+    Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+    26/04/07 18:33:05 INFO SparkContext: Running Spark version 3.0.0
+    26/04/07 18:33:05 INFO ResourceUtils: ==============================================================
+    26/04/07 18:33:05 INFO ResourceUtils: Resources for spark.driver:
+    System.Management.Automation.RemoteException
+    26/04/07 18:33:05 INFO ResourceUtils: ==============================================================
+    26/04/07 18:33:05 INFO SparkContext: Submitted application: NYCTaxiAnalysis
+    26/04/07 18:33:05 INFO SecurityManager: Changing view acls to: root
+    26/04/07 18:33:05 INFO SecurityManager: Changing modify acls to: root
+    26/04/07 18:33:05 INFO SecurityManager: Changing view acls groups to:
+    26/04/07 18:33:05 INFO SecurityManager: Changing modify acls groups to:
+    26/04/07 18:33:05 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+    26/04/07 18:33:05 INFO Utils: Successfully started service 'sparkDriver' on port 46391.
+    26/04/07 18:33:05 INFO SparkEnv: Registering MapOutputTracker
+    26/04/07 18:33:05 INFO SparkEnv: Registering BlockManagerMaster
+    26/04/07 18:33:05 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+    26/04/07 18:33:05 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+    26/04/07 18:33:05 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+    26/04/07 18:33:05 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-ed8a1ec5-e046-4f2a-a79c-367a326ccba2
+    26/04/07 18:33:05 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+    26/04/07 18:33:05 INFO SparkEnv: Registering OutputCommitCoordinator
+    26/04/07 18:33:05 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+    26/04/07 18:33:05 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://bba911f61a1a:4040
+    26/04/07 18:33:05 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+    26/04/07 18:33:05 INFO TransportClientFactory: Successfully created connection to spark-master/172.20.0.6:7077 after 23 ms (0 ms spent in bootstraps)
+    26/04/07 18:33:06 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260407183306-0001
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183306-0001/0 on worker-20260407182201-172.20.0.9-41863 (172.20.0.9:41863) with 12 core(s)
+    26/04/07 18:33:06 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183306-0001/0 on hostPort 172.20.0.9:41863 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183306-0001/1 on worker-20260407182201-172.20.0.8-37303 (172.20.0.8:37303) with 12 core(s)
+    26/04/07 18:33:06 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183306-0001/1 on hostPort 172.20.0.8:37303 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260407183306-0001/2 on worker-20260407182200-172.20.0.7-36381 (172.20.0.7:36381) with 12 core(s)
+    26/04/07 18:33:06 INFO StandaloneSchedulerBackend: Granted executor ID app-20260407183306-0001/2 on hostPort 172.20.0.7:36381 with 12 core(s), 768.0 MiB RAM
+    26/04/07 18:33:06 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 34843.
+    26/04/07 18:33:06 INFO NettyBlockTransferService: Server created on bba911f61a1a:34843
+    26/04/07 18:33:06 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+    26/04/07 18:33:06 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, bba911f61a1a, 34843, None)
+    26/04/07 18:33:06 INFO BlockManagerMasterEndpoint: Registering block manager bba911f61a1a:34843 with 366.3 MiB RAM, BlockManagerId(driver, bba911f61a1a, 34843, None)
+    26/04/07 18:33:06 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, bba911f61a1a, 34843, None)
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183306-0001/2 is now RUNNING
+    26/04/07 18:33:06 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, bba911f61a1a, 34843, None)
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183306-0001/0 is now RUNNING
+    26/04/07 18:33:06 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260407183306-0001/1 is now RUNNING
+    26/04/07 18:33:06 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+    26/04/07 18:33:06 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/spark-warehouse').
+    26/04/07 18:33:06 INFO SharedState: Warehouse path is 'file:/spark-warehouse'.
+    2026-04-07 18:33:07,415 INFO : ============================================================
+    2026-04-07 18:33:07,415 INFO : NYCTaxiAnalysis | OPTIMIZED=True
+    2026-04-07 18:33:07,416 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=12
+    2026-04-07 18:33:07,416 INFO : ============================================================
+    /spark/python/lib/pyspark.zip/pyspark/util.py:141: UserWarning: Currently, 'setJobDescription' (set to local properties) with multiple threads does not properly work.
+    Internally threads on PVM and JVM are not synced, and JVM thread can be reused for multiple threads on PVM, which fails to isolate local properties for each thread on PVM.
+    To work around this, you can set PYSPARK_PIN_THREAD to true (see SPARK-22340). However, note that it cannot inherit the local properties from the parent thread although it isolates each thread on PVM and JVM with its own local properties.
+    To work around this, you should manually copy and set the local properties from the parent thread to the child thread when you create another thread.
+    2026-04-07 18:33:07,416 INFO : [JOB START] >>> Load
+    2026-04-07 18:33:15,952 INFO : Full dataset: 3,066,766 rows | 12 partitions
+    2026-04-07 18:33:16,402 INFO : Sampled 521,481 rows (fraction=0.17)
+    2026-04-07 18:33:16,410 INFO : [JOB END]   <<< Load | 8.985s | active stages: []
+    2026-04-07 18:33:16,411 INFO : [JOB START] >>> Preprocessing
+    2026-04-07 18:33:16,965 INFO : OPTIMIZED: repartition(12) + persist(MEMORY_AND_DISK)
+    2026-04-07 18:33:20,272 INFO : After preprocessing: 500,561 rows | 12 partitions
+    2026-04-07 18:33:20,287 INFO : [JOB END]   <<< Preprocessing | 3.862s | active stages: []
+    2026-04-07 18:33:20,288 INFO : [JOB START] >>> Aggregations
+    2026-04-07 18:33:20,288 INFO : [AGG 1/4] Trips and avg fare by VendorID
+    +--------+------+------------------+------------------+
+    |VendorID| trips|      avg_distance|         avg_total|
+    +--------+------+------------------+------------------+
+    |       2|365945|3.5285641558157614| 27.89278375165689|
+    |       1|134616|3.1663665537528973|25.951557764307307|
+    +--------+------+------------------+------------------+
+    2026-04-07 18:33:21,641 INFO : [AGG 2/4] Trips by pickup hour
+    +-----------+-----+------------------+
+    |pickup_hour|trips|          avg_fare|
+    +-----------+-----+------------------+
+    |          0|13772|19.955880046471105|
+    |          1| 9356|17.863178708849933|
+    |          2| 6795|17.061617365710084|
+    |          3| 4401|17.834605771415585|
+    |          4| 2747|22.412897706589007|
+    |          5| 2813|27.260238179879135|
+    |          6| 7071| 22.45305190213548|
+    |          7|13871|18.845082546319667|
+    |          8|18730|  17.3598868126001|
+    |          9|21371|17.516674465397024|
+    |         10|23673| 17.85940776411946|
+    |         11|25171| 17.48118032656628|
+    |         12|27844|17.783724680362013|
+    |         13|29606|18.615289130581633|
+    |         14|31709|19.712439055157848|
+    |         15|32563|19.263914565611277|
+    |         16|31988| 19.63330436413656|
+    |         17|34510|18.540350043465658|
+    |         18|35026|16.983123108547936|
+    |         19|31414|17.466342076781036|
+    |         20|27146|18.125681131658435|
+    |         21|26462|18.519139898722692|
+    |         22|23943|19.363899260744258|
+    |         23|18579|20.654169223316643|
+    +-----------+-----+------------------+
+    2026-04-07 18:33:22,288 INFO : [AGG 3/4] Payment type distribution
+    +------------+------+
+    |payment_type| count|
+    +------------+------+
+    |           1|410180|
+    |           2| 90381|
+    +------------+------+
+    2026-04-07 18:33:22,753 INFO : [AGG 4/4] Avg tip by day of week
+    +----------+-----+------------------+
+    |pickup_dow|trips|           avg_tip|
+    +----------+-----+------------------+
+    |         1|70863| 3.539572696611774|
+    |         2|66060|3.5631086890705435|
+    |         3|80231|3.4305050416921152|
+    |         4|68240|  3.38809818288394|
+    |         5|71963|3.4431384183538776|
+    |         6|70795|3.4084757398121313|
+    |         7|72409|3.2026604427626397|
+    +----------+-----+------------------+
+    2026-04-07 18:33:23,048 INFO : [JOB END]   <<< Aggregations | 2.758s | active stages: []
+    2026-04-07 18:33:23,048 INFO : [JOB START] >>> ML-FeatureEng
+    2026-04-07 18:33:23,370 INFO : OPTIMIZED: caching train/test splits
+    2026-04-07 18:33:26,896 INFO : Train: 400,909 | Test: 99,652
+    2026-04-07 18:33:26,899 INFO : [JOB END]   <<< ML-FeatureEng | 3.848s | active stages: []
+    2026-04-07 18:33:26,900 INFO : [JOB START] >>> ML-Training
+    2026-04-07 18:33:26,968 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+    2026-04-07 18:33:32,165 INFO : Training complete | iterations: 16
+    2026-04-07 18:33:32,167 INFO : [JOB END]   <<< ML-Training | 5.266s | active stages: []
+    2026-04-07 18:33:32,169 INFO : [JOB START] >>> ML-Evaluation
+    2026-04-07 18:33:32,942 INFO : Model accuracy: 0.9448
+    2026-04-07 18:33:32,944 INFO : [JOB END]   <<< ML-Evaluation | 0.774s | active stages: []
+    2026-04-07 18:33:32,955 INFO : Unpersisted all cached DataFrames
+    2026-04-07 18:33:32,956 INFO : ============================================================
+    2026-04-07 18:33:32,956 INFO : TOTAL TIME : 25.54s
+    2026-04-07 18:33:32,956 INFO : DRIVER RAM : 38.31 MB
+    2026-04-07 18:33:32,956 INFO : ACCURACY   : 0.9448
+    2026-04-07 18:33:32,956 INFO : Stage breakdown:
+    2026-04-07 18:33:32,956 INFO :   [Load]: 8.985s
+    2026-04-07 18:33:32,956 INFO :   [Preprocessing]: 3.862s
+    2026-04-07 18:33:32,956 INFO :   [Aggregations]: 2.758s
+    2026-04-07 18:33:32,957 INFO :   [ML-FeatureEng]: 3.848s
+    2026-04-07 18:33:32,957 INFO :   [ML-Training]: 5.266s
+    2026-04-07 18:33:32,957 INFO :   [ML-Evaluation]: 0.774s
+    2026-04-07 18:33:32,957 INFO : ============================================================
+    [METRIC] [ROWS]521481
+    [METRIC] [TIME]25.540284395217896
+    [METRIC] [MEMORY]38.30859375mb
+    [METRIC] [LOAD_TIME]8.98549199104309
+    [METRIC] [AGG_TIME]2.7579002380371094
+    [METRIC] [ML_TIME]5.265585422515869
+    [METRIC] [ACCURACY]0.9448380363665556
+    Log saved: logs\3dn_optimized.log
+    Saved 7 metrics to results\res_three_node_opt.txt
+Stopping 3DN cluster ...
+
+
+=============================
+ 3. Generating charts
+=============================
+
+
+All done! Open charts/comparison.png and charts/stages_breakdown.png.
+**********************
+Конец записи протокола Windows PowerShell
+Время окончания: 20260407213342
+**********************

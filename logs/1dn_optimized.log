@@ -1,0 +1,42 @@
+2026-04-07 18:21:27,163 INFO : ============================================================
+2026-04-07 18:21:27,163 INFO : NYCTaxiAnalysis | OPTIMIZED=True
+2026-04-07 18:21:27,164 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=12
+2026-04-07 18:21:27,164 INFO : ============================================================
+2026-04-07 18:21:27,164 INFO : [JOB START] >>> Load
+2026-04-07 18:21:33,474 INFO : Full dataset: 3,066,766 rows | 12 partitions
+2026-04-07 18:21:33,847 INFO : Sampled 521,481 rows (fraction=0.17)
+2026-04-07 18:21:33,855 INFO : [JOB END]   <<< Load | 6.682s | active stages: []
+2026-04-07 18:21:33,856 INFO : [JOB START] >>> Preprocessing
+2026-04-07 18:21:34,431 INFO : OPTIMIZED: repartition(12) + persist(MEMORY_AND_DISK)
+2026-04-07 18:21:37,809 INFO : After preprocessing: 500,561 rows | 12 partitions
+2026-04-07 18:21:37,823 INFO : [JOB END]   <<< Preprocessing | 3.953s | active stages: []
+2026-04-07 18:21:37,823 INFO : [JOB START] >>> Aggregations
+2026-04-07 18:21:37,824 INFO : [AGG 1/4] Trips and avg fare by VendorID
+2026-04-07 18:21:38,716 INFO : [AGG 2/4] Trips by pickup hour
+2026-04-07 18:21:39,353 INFO : [AGG 3/4] Payment type distribution
+2026-04-07 18:21:39,688 INFO : [AGG 4/4] Avg tip by day of week
+2026-04-07 18:21:39,909 INFO : [JOB END]   <<< Aggregations | 2.084s | active stages: []
+2026-04-07 18:21:39,910 INFO : [JOB START] >>> ML-FeatureEng
+2026-04-07 18:21:40,178 INFO : OPTIMIZED: caching train/test splits
+2026-04-07 18:21:43,062 INFO : Train: 400,909 | Test: 99,652
+2026-04-07 18:21:43,064 INFO : [JOB END]   <<< ML-FeatureEng | 3.153s | active stages: []
+2026-04-07 18:21:43,065 INFO : [JOB START] >>> ML-Training
+2026-04-07 18:21:43,113 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+2026-04-07 18:21:47,730 INFO : Training complete | iterations: 16
+2026-04-07 18:21:47,732 INFO : [JOB END]   <<< ML-Training | 4.665s | active stages: []
+2026-04-07 18:21:47,732 INFO : [JOB START] >>> ML-Evaluation
+2026-04-07 18:21:48,200 INFO : Model accuracy: 0.9448
+2026-04-07 18:21:48,201 INFO : [JOB END]   <<< ML-Evaluation | 0.468s | active stages: []
+2026-04-07 18:21:48,212 INFO : Unpersisted all cached DataFrames
+2026-04-07 18:21:48,212 INFO : ============================================================
+2026-04-07 18:21:48,212 INFO : TOTAL TIME : 21.05s
+2026-04-07 18:21:48,213 INFO : DRIVER RAM : 38.13 MB
+2026-04-07 18:21:48,213 INFO : ACCURACY   : 0.9448
+2026-04-07 18:21:48,213 INFO : Stage breakdown:
+2026-04-07 18:21:48,213 INFO :   [Load]: 6.682s
+2026-04-07 18:21:48,213 INFO :   [Preprocessing]: 3.953s
+2026-04-07 18:21:48,213 INFO :   [Aggregations]: 2.084s
+2026-04-07 18:21:48,213 INFO :   [ML-FeatureEng]: 3.153s
+2026-04-07 18:21:48,213 INFO :   [ML-Training]: 4.665s
+2026-04-07 18:21:48,213 INFO :   [ML-Evaluation]: 0.468s
+2026-04-07 18:21:48,213 INFO : ============================================================

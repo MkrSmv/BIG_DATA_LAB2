@@ -1,0 +1,38 @@
+2026-04-07 18:32:27,567 INFO : ============================================================
+2026-04-07 18:32:27,567 INFO : NYCTaxiAnalysis | OPTIMIZED=False
+2026-04-07 18:32:27,567 INFO : executor.memory=768m | driver.memory=512m | shuffle.partitions=100
+2026-04-07 18:32:27,568 INFO : ============================================================
+2026-04-07 18:32:27,568 INFO : [JOB START] >>> Load
+2026-04-07 18:32:36,869 INFO : Full dataset: 3,066,766 rows | 12 partitions
+2026-04-07 18:32:37,481 INFO : Sampled 521,481 rows (fraction=0.17)
+2026-04-07 18:32:37,488 INFO : [JOB END]   <<< Load | 9.913s | active stages: []
+2026-04-07 18:32:37,488 INFO : [JOB START] >>> Preprocessing
+2026-04-07 18:32:39,915 INFO : After preprocessing: 500,561 rows | 12 partitions
+2026-04-07 18:32:39,916 INFO : [JOB END]   <<< Preprocessing | 2.426s | active stages: []
+2026-04-07 18:32:39,917 INFO : [JOB START] >>> Aggregations
+2026-04-07 18:32:39,917 INFO : [AGG 1/4] Trips and avg fare by VendorID
+2026-04-07 18:32:43,062 INFO : [AGG 2/4] Trips by pickup hour
+2026-04-07 18:32:45,659 INFO : [AGG 3/4] Payment type distribution
+2026-04-07 18:32:46,942 INFO : [AGG 4/4] Avg tip by day of week
+2026-04-07 18:32:48,278 INFO : [JOB END]   <<< Aggregations | 8.360s | active stages: []
+2026-04-07 18:32:48,279 INFO : [JOB START] >>> ML-FeatureEng
+2026-04-07 18:32:48,531 INFO : [JOB END]   <<< ML-FeatureEng | 0.251s | active stages: []
+2026-04-07 18:32:48,532 INFO : [JOB START] >>> ML-Training
+2026-04-07 18:32:48,581 INFO : Training LogisticRegression (maxIter=15, regParam=0.01)...
+2026-04-07 18:32:59,055 INFO : Training complete | iterations: 16
+2026-04-07 18:32:59,058 INFO : [JOB END]   <<< ML-Training | 10.522s | active stages: []
+2026-04-07 18:32:59,060 INFO : [JOB START] >>> ML-Evaluation
+2026-04-07 18:33:01,955 INFO : Model accuracy: 0.9454
+2026-04-07 18:33:01,956 INFO : [JOB END]   <<< ML-Evaluation | 2.895s | active stages: []
+2026-04-07 18:33:01,957 INFO : ============================================================
+2026-04-07 18:33:01,957 INFO : TOTAL TIME : 34.39s
+2026-04-07 18:33:01,957 INFO : DRIVER RAM : 38.18 MB
+2026-04-07 18:33:01,957 INFO : ACCURACY   : 0.9454
+2026-04-07 18:33:01,957 INFO : Stage breakdown:
+2026-04-07 18:33:01,957 INFO :   [Load]: 9.913s
+2026-04-07 18:33:01,957 INFO :   [Preprocessing]: 2.426s
+2026-04-07 18:33:01,957 INFO :   [Aggregations]: 8.360s
+2026-04-07 18:33:01,958 INFO :   [ML-FeatureEng]: 0.251s
+2026-04-07 18:33:01,958 INFO :   [ML-Training]: 10.522s
+2026-04-07 18:33:01,958 INFO :   [ML-Evaluation]: 2.895s
+2026-04-07 18:33:01,958 INFO : ============================================================
